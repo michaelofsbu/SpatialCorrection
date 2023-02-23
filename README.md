@@ -5,14 +5,15 @@ This is the main repository for Spatial Correction method published in **[Learni
 ## Citing
 
 If you find our work helpful, please consider citing the following paper.
-``
+
+<code>
 @inproceedings{yao2023spatialcorrection,
    title={Learning to Segment from Noisy Annotations: A Spatial Correction Approach},
    author={Yao, Jiachen and Zhang, Yikai and Zheng, Songzhu and Goswami, Mayank and Prasanna, Prateek and Chen, Chao},
    booktitle={International Conference on Learning Representations},
    year={2023}
 }
-``
+</code>
 
 
 
