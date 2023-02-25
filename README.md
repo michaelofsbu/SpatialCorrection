@@ -49,7 +49,7 @@ We include Cityscapes and LIDC-IDRI datasets for real-world label noise settings
 
 ## Test with Trained models
 
-We provide the *JSRT* dataset with noisy setting `A` we used in our experiments in `./Datasets` and a trained model with the proposed Spatial Correction method in `./trained`. If you use *JSRT* dataset in your work, please cite their original publications. More trained models will be uploaded later.
+We provide the *JSRT* dataset with noisy setting **J1** in `./Datasets` and a trained model with the proposed Spatial Correction method in `./trained`. If you use *JSRT* dataset in your work, please cite their original publications. More trained models will be uploaded later.
 
 For testing on the provided model, simply run `python test.py`. To test other models, change the paths in `test.py` accordingly and run the same command.
 
