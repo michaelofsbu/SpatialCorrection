@@ -6,7 +6,7 @@ This paper proposed a Markov model for simulating segmentation label noise, and 
 
 * [**Requirements**](#requirements)
 * [**Noisy Label Generation**](#noisy-label-generation)
-* **Testing with Trained Model**
+* **Test with Trained Models**
 * **Train on Your Own**
 * [**Citing**](#citing)
 
