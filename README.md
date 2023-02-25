@@ -33,7 +33,7 @@ Other arguments can be set accordingly with detailed descriptions inside the fun
 
 We provide the *JSRT* dataset with noisy setting `A` we used in our experiments in `./Datasets` and a trained model with the proposed Spatial Correction method in `./trained`. If you use *JSRT* dataset in your work, please cite their original publications. More trained models will be uploaded later.
 
-For testing on the provided mdoel, simply run `python test.py`. To test other models, change the paths in `test.py` and run the same command.
+For testing on the provided model, simply run `python test.py`. To test other models, change the paths in `test.py` accordingly and run the same command.
 
 ## Train on Your Own
 
