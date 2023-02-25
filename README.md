@@ -6,6 +6,8 @@ This paper proposed a Markov model for simulating segmentation label noise, and 
 
 * [**Requirements**](#requirements)
 * [**Noisy Label Generation**](#noisy-label-generation)
+* **Testing with Trained Model**
+* **Train on Your Own**
 * [**Citing**](#citing)
 
 ## Requirements
@@ -23,7 +25,7 @@ The Markov noise generation follows Definition 1 in our paper. There are four pa
 python noise_generator.py --gts_root your/gt/root/ --save_root your/save/root/
 ```
 To generate random dilation and erosion noise, add `--noisetype DE` to the above command.\
-Other arguments can be set accordingly by detailed descriptions inside the function.
+Other arguments can be set accordingly with detailed descriptions inside the function.
 
 ## Citing
 
