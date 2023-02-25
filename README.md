@@ -1,11 +1,9 @@
 # Learning to Segment from Noisy Annotations: A Spatial Correction Approach
 
-This is the official repository for the ICLR 2023 paper **[Learning to Segment from Noisy Annotations: A Spatial Correction Approach](https://openreview.net/forum?id=Qc_OopMEBnC&referrer=%5BAuthor%20Console%5D(%2Fgroup%3Fid%3DICLR.cc%2F2023%2FConference%2FAuthors%23your-submissions))**.
-
-This paper proposed a Markov model for simulating segmentation label noise, and a Spatial Correction method to combat such noise. The outline of this repository is given as follows.
+This is the official repository for the ICLR 2023 paper **[Learning to Segment from Noisy Annotations: A Spatial Correction Approach](https://openreview.net/forum?id=Qc_OopMEBnC&referrer=%5BAuthor%20Console%5D(%2Fgroup%3Fid%3DICLR.cc%2F2023%2FConference%2FAuthors%23your-submissions))**. This paper proposed a Markov model for simulating segmentation label noise, and a Spatial Correction method to combat such noise. The proposed method is compared with SOTAs in a wide range of noisy settings, including both synthetic and real-world noise. The outline of this repository is given as follows.
 
 * [**Requirements**](#requirements)
-* [**Noisy Label Generation**](#noisy-label-generation)
+* [**Noisy Label Settings**](#noisy-label-settings)
 * [**Test with Trained Models**](#test-with-trained-models)
 * [**Train on Your Own**](#train-on-your-own)
 * [**Citing**](#citing)
@@ -14,7 +12,7 @@ This paper proposed a Markov model for simulating segmentation label noise, and 
 
 Our code has been tested on Ubuntu 20.04.5 LTS with CUDA 11.4 (Driver Version 470.161.03), Python 3.9.7, and PyTorch v1.10.2. (Add .requirements)
 
-## Noisy Label Generation
+## Noisy Label Settings
 
 |![fig1](figs/noisetype.png)|
 |:---|
