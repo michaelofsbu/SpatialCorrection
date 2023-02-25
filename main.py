@@ -161,7 +161,7 @@ def get_input(args):
             return train_loader, valid_loader, test_loader, true_loader
         else:
             return train_loader, valid_loader, test_loader
-    elif args.dataset == 'ISIC2017':
+    elif args.dataset == 'ISIC2017' or args.dataset == 'Cityscapes':
         train_dataset = ISICDataset(datapath=args.imgs_tr, gtpath=args.gts_tr, mode='train')
         valid_dataset = ISICDataset(datapath=args.imgs_val, gtpath=args.gts_val, mode='val')
         test_dataset = ISICDataset(datapath=args.imgs_test, gtpath=args.gts_test, mode='test')
