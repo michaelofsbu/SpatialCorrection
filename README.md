@@ -29,13 +29,23 @@ The Markov noise generation follows Definition 1 in our paper. There are four pa
 python noise_generator.py --gts_root your/gt/root/ --save_root your/save/root/
 ```
 To generate random dilation and erosion noise, add `--noisetype DE` to the above command.\
-Other arguments can be set accordingly with detailed descriptions inside the function. The full settings we used in experiments are provided in the following table.
+Other arguments can be set accordingly with detailed descriptions inside the function. To generate noisy labels used in Table 1 in the paper, refer to the following settings.
 
-(Table of settings)
+|   ID   |   Dataset   | `--is3D` | `--noisetype` |                 `--range`                  |                `--T`                 | `--theta1` |               `--theta2`                | `--theta3` |
+| :----: | :---------: | :------: | :-----------: | :----------------------------------------: | :----------------------------------: | :--------: | :-------------------------------------: | :--------: |
+| **J1** |   *JSRT*    |  False   |    Markov     |                     --                     | Lung: 180, Heart: 180, Clavicle: 100 |    0.8     | Lung: 0.05, Heart: 0.05, Clavicle: 0.02 |    0.2     |
+| **J2** |   *JSRT*    |  False   |    Markov     |                     --                     | Lung: 180, Heart: 180, Clavicle: 100 |    0.2     | Lung: 0.05, Heart: 0.05, Clavicle: 0.02 |    0.2     |
+| **J3** |   *JSRT*    |  False   |      DE       | Lung: [7,9], Heart: [7,9], Clavicle: [3,5] |                  --                  |     --     |                   --                    |     --     |
+| **B1** | *Brats2020* |   True   |    Markov     |                     --                     |                  80                  |    0.7     |                  0.05                   |     0      |
+| **B2** | *Brats2020* |   True   |    Markov     |                     --                     |                  80                  |    0.3     |                  0.05                   |     0      |
+| **B3** | *Brats2020* |   True   |      DE       |                   [3,5]                    |                  --                  |     --     |                   --                    |     --     |
+| **I1** | *ISIC2017*  |  False   |    Markov     |                     --                     |                 200                  |    0.2     |                  0.05                   |    0.2     |
+| **I2** | *ISIC2017*  |  False   |    Markov     |                     --                     |                 200                  |    0.8     |                  0.05                   |    0.2     |
+| **I3** | *ISIC2017*  |  False   |      DE       |                   [7,9]                    |                  --                  |     --     |                   --                    |     --     |
 
 ### Real-world Noise
 
-(Table of settings)
+We include Cityscapes and LIDC-IDRI datasets for real-world label noise settings. Detailed information can be found in the paper. Our selected Cityscapes dataset can be downloaed here soon.
 
 ## Test with Trained models
 
