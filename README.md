@@ -6,13 +6,13 @@ This paper proposed a Markov model for simulating segmentation label noise, and 
 
 * [**Requirements**](#requirements)
 * [**Noisy Label Generation**](#noisy-label-generation)
-* **Test with Trained Models**
-* **Train on Your Own**
+* [**Test with Trained Models**](#test-with-trained-models)
+* [**Train on Your Own**](#train-on-your-own)
 * [**Citing**](#citing)
 
 ## Requirements
 
-Our code has been tested on Ubuntu 20.04.5 LTS with CUDA 11.4 (Driver Version 470.161.03), Python 3.9.7, and PyTorch v1.10.2.
+Our code has been tested on Ubuntu 20.04.5 LTS with CUDA 11.4 (Driver Version 470.161.03), Python 3.9.7, and PyTorch v1.10.2. (Add .requirements)
 
 ## Noisy Label Generation
 
@@ -26,6 +26,20 @@ python noise_generator.py --gts_root your/gt/root/ --save_root your/save/root/
 ```
 To generate random dilation and erosion noise, add `--noisetype DE` to the above command.\
 Other arguments can be set accordingly with detailed descriptions inside the function.
+
+(Table of settings)
+
+## Test with Trained models
+
+We provide the *JSRT* dataset with noisy setting `A` we used in our experiments in `./Datasets` and a trained model with the proposed Spatial Correction method in `./trained`. If you use *JSRT* dataset in your work, please cite their original publications. More trained models will be uploaded later.
+
+For testing on the provided mdoel, simply run `python test.py`. To test other models, change the paths in `test.py` and run the same command.
+
+## Train on Your Own
+
+**Train with datasets in the paper.**
+
+**Train with your own dataset.**
 
 ## Citing
 
