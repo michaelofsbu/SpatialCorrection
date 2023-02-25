@@ -2,7 +2,11 @@
 
 This is the official repository for the ICLR 2023 paper **[Learning to Segment from Noisy Annotations: A Spatial Correction Approach](https://openreview.net/forum?id=Qc_OopMEBnC&referrer=%5BAuthor%20Console%5D(%2Fgroup%3Fid%3DICLR.cc%2F2023%2FConference%2FAuthors%23your-submissions))**.
 
-This paper proposed a Markov model for simulating segmentation label noise, and a Spatial Correction method to combat such noise.
+This paper proposed a Markov model for simulating segmentation label noise, and a Spatial Correction method to combat such noise. The outline of this repository is given as follows.
+
+* [**Requirements**](#requirements)
+* [**Noisy Label Generation**](#noisy-label-generation)
+* [**Citing**](#citing)
 
 ## Requirements
 
@@ -21,10 +25,9 @@ python noise_generator.py --gts_root your/gt/root/ --save_root your/save/root/
 To generate random dilation and erosion noise, add `--noisetype DE` to the above command.\
 Other arguments can be set accordingly by detailed descriptions inside the function.
 
-
 ## Citing
 
-If you find our work helpful, please consider citing as
+If you find this code helpful, please consider citing as
 
 ```
 @inproceedings{yao2023spatialcorrection,
