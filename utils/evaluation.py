@@ -5,7 +5,7 @@ from .dice_loss import DiceCoeff
 import numpy as np
 
 class Evaluator():
-    def __init__(self, model, writer, metric='dice',
+    def __init__(self, model, writer=None, metric='dice',
                  device=torch.device('cpu'), logger=logging.getLogger(__name__),
                  save_file = False, **kwargs) -> None:
         self.model = model
@@ -44,10 +44,11 @@ class Evaluator():
                 self.logger.info('Epoch {:d} Lung--Heart--Clavicle--Mean ({:.2f}--{:.2f}--{:.2f}--{:.2f})'
                                 .format(epoch, classwise_mean[0], 
                                         classwise_mean[1], classwise_mean[2], total_mean))
-                self.writer.add_scalar('eval_acc/Lung', classwise_mean[0], epoch)
-                self.writer.add_scalar('eval_acc/Heart', classwise_mean[1], epoch)
-                self.writer.add_scalar('eval_acc/Clavicle', classwise_mean[2], epoch)
-                self.writer.add_scalar('eval_acc/Average', total_mean, epoch)
+                if self.writer:
+                    self.writer.add_scalar('eval_acc/Lung', classwise_mean[0], epoch)
+                    self.writer.add_scalar('eval_acc/Heart', classwise_mean[1], epoch)
+                    self.writer.add_scalar('eval_acc/Clavicle', classwise_mean[2], epoch)
+                    self.writer.add_scalar('eval_acc/Average', total_mean, epoch)
             else:
                 self.logger.info('Epoch {:d}: Lung {:.2f}+-{:.2f} '.format(epoch, classwise_mean[0], classwise_std[0]) +
                               'Heart {:.2f}+-{:.2f} '.format(classwise_mean[1], classwise_std[1]) +
@@ -59,7 +60,8 @@ class Evaluator():
             std = np.std(dval[0])*100
             if not self.save_file:
                 self.logger.info('Epoch {:d} Dice {:.2f}'.format(epoch, mean))
-                self.writer.add_scalar('eval_acc', mean, epoch)
+                if self.writer:
+                    self.writer.add_scalar('eval_acc', mean, epoch)
             else:
                 self.logger.info('Epoch {:d}: {:.2f}+-{:.2f}'.format(epoch, mean, std))
             return mean
