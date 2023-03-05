@@ -55,9 +55,15 @@ For testing on the provided model, simply run `python test.py`. To test other mo
 
 ## Train on Your Own
 
-**Train with datasets in the paper.**
+## Train with datasets in the paper.
+
+Change the relevant dataset path in `config.ini` or organize your data folder accordingly. Each dataset has its own section leading by `[dataset_name]`. Example commands for training model with each dataset are provided in `run.sh`. Our models are trained with provided parameters.
 
 **Train with your own dataset.**
+
+**Preparing Code.** To train your own dataset, the first thing is to add another section in `config.ini` leading by `[your_dataset]`. Based on the modality and classes of your dataset, you might need to modify codes in `utils/training.py`, `utils/evaluation.py`, and `utils/LabelClean.py`. Note that you only need to modify relevant part (mostly some if/else conditions) to fit the dimension (same to 'Brats2020' if 3D, same to 'JSRT'/'ISIC2017' if 2D) and classes (same to 'JSRT' if multiple classes, smae to 'ISIC2017'/'Brats2020' if single class).
+
+**Tuning Parameters.** Apart from epochs `-e`, batch size `-b`, and learning rate `-lr`, there are other three parameters for cleaning noisy labels. `-s` is the hyper-parameter $\gamma$ in our paper ranged in $(0, 1]$. If too small, the label correction algorithm may not run depending the bias amount. First use a large value `-s 1`, which usually works in most cases. Then try to scale down to `-s 0.8` or `-s 0.4` to find the best performance. Other two relevant parameters are `-le` and `--max_iter`. The former is run label correction every `-le` epochs and start over training. The latter is the maximum iteration for the whole process.
 
 ## Citing
 
