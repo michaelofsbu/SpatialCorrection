@@ -10,6 +10,9 @@
 #ISIC2017 noise 3/4
 #python main.py noise4 -cuda 4 -e 80 -le 25 --max_iter 2 -lr 0.005 -b 10 -ch 3 -cl 1 -s 0.3
 
+#Cityscapes noise
+#python main.py noise -cuda 2 -e 80 -le 25 --max_iter 2 -lr 0.005 -b 10 -ch 3 -cl 1 -s 0.3
+
 # Jsrt noise 3
 #python main.py val_1 --dataset Jsrt -cuda 6 -e 50 -le 25 --max_iter 1 -lr 0.01 -b 20 -ch 1 -cl 3 -s 0.7 --val_size 1
 
