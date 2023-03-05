@@ -2,7 +2,6 @@ from tqdm import tqdm
 import torch
 import logging
 from .dice_loss import DiceCoeff
-from monai.inferers import sliding_window_inference
 import numpy as np
 
 class Evaluator():
@@ -102,67 +101,3 @@ class Evaluator():
                 s = s + DiceCoeff().forward(c[0], c[1])
 
         return s / (i + 1)
-
-# class Evaluator():
-#     def __init__(self, model, writer, metric='dice',
-#                  device=torch.device('cpu'), logger=logging.getLogger(__name__),
-#                  save_file = False, **kwargs) -> None:
-#         self.model = model
-#         self.writer = writer
-#         self.device = device
-#         self.logger = logger
-#         self.num_class = kwargs['num_class']
-#         self.dataset = kwargs['dataset']
-#         self.save_file = save_file
-    
-#     def __call__(self, eval_loader, epoch) -> None:
-#         self.model.eval()
-#         dcnt = len(eval_loader)
-#         dval = np.zeros((self.num_class, dcnt))
-#         for iter, batch in enumerate(eval_loader):
-#             image, target = batch['image'].to(self.device), batch['mask'].to(self.device)
-#             index = batch['index']
-#             #print(image.shape)
-#             output = sliding_window_inference(
-#                 inputs=image, 
-#                 predictor=self.model,
-#                 roi_size=,
-#                 sw_batch_size=1,
-#                 overlap=0.5,
-#                 mode='constant'
-#             )
-#             print(output.shape)
-#             pred = torch.sigmoid(output)
-#             #print(torch.unique(pred))
-#             pred = (pred > 0.5).float()
-#             if self.num_class == 1:
-#                 # dval[0][iter] = self._dice_score(pred, target, -1, self.device).item()
-#                 dval[0][index[0]] = self.dice(target.cpu().detach().squeeze().numpy(), pred.cpu().detach().squeeze().numpy())
-#             else:
-#                 for j in range(self.num_class):
-#                     dval[j][index[0]] = self._dice_score(pred, target, j, self.device).item()
-#         mean = np.mean(dval[0])*100
-#         std = np.std(dval[0])*100
-#         self.logger.info('Epoch {:d} Dice {:.2f}'.format(epoch, mean))
-#         self.writer.add_scalar('eval_acc', mean, epoch)
-    
-#     def dice(self, gt, pred):
-#         eps = 1e-5
-#         #pred = (pred > 0.5).astype(np.float)
-#         inter = (gt*pred).sum().astype(np.float)
-#         return 2*inter/(gt.sum()+pred.sum() + eps).astype(np.float)
-
-#     def _dice_score(self, input, target, l, device):
-#         """Dice coeff for batches"""
-#         if input.is_cuda:
-#             s = torch.FloatTensor(1).to(device).zero_()
-#         else:
-#             s = torch.FloatTensor(1).zero_()
-
-#         for i, c in enumerate(zip(input, target)):
-#             if l >= 0:
-#                 s = s + DiceCoeff().forward(c[0][l], c[1][l])
-#             else:
-#                 s = s + DiceCoeff().forward(c[0], c[1])
-
-#         return s / (i + 1)
