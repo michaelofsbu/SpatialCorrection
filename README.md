@@ -10,7 +10,10 @@ This is the official repository for the ICLR 2023 paper **[Learning to Segment f
 
 ## Requirements
 
-Our code has been tested on Ubuntu 20.04.5 LTS with CUDA 11.4 (Driver Version 470.161.03), Python 3.9.7, and PyTorch v1.10.2. (Add .requirements)
+Our code has been tested on Ubuntu 20.04.5 LTS with CUDA 11.4 (Driver Version 470.161.03), Python 3.9.7, and PyTorch v1.10.2. Other requirements can be installed by
+```
+pip install -r requirements.txt
+```
 
 ## Noisy Label Settings
 
