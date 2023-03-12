@@ -4,8 +4,6 @@ import numpy as np
 from glob import glob
 import torch
 from torch.utils.data import Dataset
-import monai.transforms as transforms
-from monai.transforms.transform import MapTransform
 from torch.nn import Upsample
 import logging
 import cv2
@@ -144,25 +142,6 @@ class BratsDataset(Dataset):
     def __len__(self):
         return len(self.imgs)
 
-    # def __getitem__(self, index):
-    #     assert self.flair[index].split('/')[-1][:3] == self.gts[index].split('/')[-1][:3], 'file not matching'
-    #     flair = sitk.GetArrayFromImage(sitk.ReadImage(self.flair[index])).astype(np.float32)
-    #     # t1 = sitk.GetArrayFromImage(sitk.ReadImage(self.t1[index])).astype(np.float32)
-    #     # t2 = sitk.GetArrayFromImage(sitk.ReadImage(self.t2[index])).astype(np.float32)
-    #     # t1ce = sitk.GetArrayFromImage(sitk.ReadImage(self.t1ce[index])).astype(np.float32)
-    #     gt = sitk.GetArrayFromImage(sitk.ReadImage(self.gts[index])).astype(np.uint8)
-    #     gt[gt>0] = 1
-    #     if self.mode == 'train':
-    #         transform = self._get_brats2021_train_transform(32, 1.0, 1.0)
-    #     else:
-    #         transform = self._get_brats2021_infer_transform()
-    #     #item = transform({'flair':flair, 't1':t1, 't1ce':t1ce, 't2':t2, 'label':gt})
-    #     item = transform({'flair':flair, 'label':gt})
-    #     if self.mode == 'train':
-    #         item = item[0]
-        
-    #     return {'image': item['image'], 'mask': item['label'], 'index': index}
-
     def __getitem__(self, index):
         assert self.imgs[index].split('/')[-1][:3] == self.gts[index].split('/')[-1][:3], 'file not matching'
         flair = sitk.GetArrayFromImage(sitk.ReadImage(self.imgs[index])).astype(np.float32)
@@ -173,80 +152,3 @@ class BratsDataset(Dataset):
         image = self.resize(image).squeeze(0)
         label = self.resize(label).squeeze(0)
         return {'image': image, 'mask': label, 'index': index}
-
-    def _get_brats2021_base_transform(self):
-        # base_transform = [
-        #     # [B, H, W, D] --> [B, C, H, W, D]
-        #     transforms.AddChanneld(keys=['flair', 't1', 't1ce', 't2', 'label']),      
-        #     transforms.Orientationd(keys=['flair', 't1', 't1ce', 't2', 'label'], axcodes="RAS"),  
-        #     RobustZScoreNormalization(keys=['flair', 't1', 't1ce', 't2']),
-        #     transforms.ConcatItemsd(keys=['flair', 't1', 't1ce', 't2'], name='image', dim=0),
-        #     transforms.DeleteItemsd(keys=['flair', 't1', 't1ce', 't2']),
-        #     #transforms.ConvertToMultiChannelBasedOnBratsClassesd(keys='label'),
-        # ]
-        base_transform = [
-            # [B, H, W, D] --> [B, C, H, W, D]
-            transforms.AddChanneld(keys=['flair', 'label']),      
-            transforms.Orientationd(keys=['flair', 'label'], axcodes="RAS"),  
-            RobustZScoreNormalization(keys=['flair']),
-            transforms.ConcatItemsd(keys=['flair'], name='image', dim=0),
-            transforms.DeleteItemsd(keys=['flair']),
-            #transforms.ConvertToMultiChannelBasedOnBratsClassesd(keys='label'),
-        ]
-        return base_transform
-
-
-    def _get_brats2021_train_transform(self, patch_size=128, pos_ratio=1.0, neg_ratio=1.0):
-        base_transform = self._get_brats2021_base_transform()
-        data_aug = [
-            # crop
-            transforms.RandCropByPosNegLabeld(
-                keys=["image", 'label'], 
-                label_key='label',
-                spatial_size=[patch_size] * 3, 
-                pos=pos_ratio, 
-                neg=neg_ratio, 
-                num_samples=1),
-
-            # spatial aug
-            transforms.RandFlipd(keys=["image", 'label'], prob=0.5, spatial_axis=0),
-            transforms.RandFlipd(keys=["image", 'label'], prob=0.5, spatial_axis=1),
-            transforms.RandFlipd(keys=["image", 'label'], prob=0.5, spatial_axis=2),
-
-            # intensity aug
-            transforms.RandGaussianNoised(keys='image', prob=0.15, mean=0.0, std=0.33),
-            transforms.RandGaussianSmoothd(
-                keys='image', prob=0.15, sigma_x=(0.5, 1.5), sigma_y=(0.5, 1.5), sigma_z=(0.5, 1.5)),
-            transforms.RandAdjustContrastd(keys='image', prob=0.15, gamma=(0.7, 1.3)),
-
-            # other stuff
-            transforms.EnsureTyped(keys=["image", 'label']),
-        ]
-        return transforms.Compose(base_transform + data_aug)
-        #return transforms.Compose(data_aug)
-
-
-    def _get_brats2021_infer_transform(self):
-        base_transform = self._get_brats2021_base_transform()
-        infer_transform = [transforms.EnsureTyped(keys=["image", 'label'])]
-        return transforms.Compose(base_transform + infer_transform)
-        #return transforms.Compose(infer_transform)
-
-
-class RobustZScoreNormalization(MapTransform):
-    def __call__(self, data):
-        d = dict(data)
-        for key in self.key_iterator(d):
-            mask = d[key] > 0
-
-            lower = np.percentile(d[key][mask], 0.2)
-            upper = np.percentile(d[key][mask], 99.8)
-
-            d[key][mask & (d[key] < lower)] = lower
-            d[key][mask & (d[key] > upper)] = upper
-
-            y = d[key][mask]
-            d[key] -= y.mean()
-            d[key] /= y.std()
-
-        return d

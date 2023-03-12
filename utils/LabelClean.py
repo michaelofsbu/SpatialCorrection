@@ -1,4 +1,3 @@
-import abc
 import os
 from PIL import Image
 import SimpleITK as sitk

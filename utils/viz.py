@@ -1,4 +1,3 @@
-from statistics import mode
 from torchvision.utils import make_grid, save_image, draw_segmentation_masks
 from net import UNet
 import torch
