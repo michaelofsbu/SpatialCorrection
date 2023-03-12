@@ -1,0 +1,7 @@
+tqdm
+SimpleITK
+Pillow
+scipy
+opencv-python
+torchvision
+matplotlib
