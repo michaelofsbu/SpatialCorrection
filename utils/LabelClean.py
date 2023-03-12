@@ -39,6 +39,8 @@ class Cleaner():
         else:
             confidence_level = 0.5
         self.model.eval()
+
+        # Estimate Bias
         length = 0
         for _, batch in enumerate(eval_loader):
             image, gt = batch['image'].to(self.device), batch['mask'].to(self.device)
@@ -69,10 +71,10 @@ class Cleaner():
         diff = sigma * diff / length
         save_path = []
         for i in range(self.num_class):
-            if i != 0:
-                diff = diff/sigma
-            if i == 2:
-                diff = diff*0.7
+            # if i != 0:
+            #     diff = diff/sigma
+            # if i == 2:
+            #     diff = diff*0.7
             self.logger.info('Distance bias {:.2f}'.format(diff[i]))
             if abs(diff[i]) < 1:
                 if self.dataset == 'Jsrt':
@@ -92,6 +94,8 @@ class Cleaner():
                 if not os.path.isdir(save_path[i]):
                     os.makedirs(save_path[i])
                 self.logger.info('Cleaned labels will be saved in {}'.format(save_path[i]))
+        
+        # Clean Training Label
         with tqdm(len(train_loader.dataset), **kwargs) as pbar:
             for _, batch in enumerate(train_loader):
                 image, target = batch['image'].to(self.device), batch['mask']
