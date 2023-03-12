@@ -60,7 +60,7 @@ For testing on the provided model, simply run `python test.py`. To test other mo
 
 ## Train with datasets in the paper.
 
-Change the relevant dataset path in `config.ini` or organize your data folder accordingly. Each dataset has its own section leading by `[dataset_name]`. Example commands for training model with each dataset are provided in `run.sh`. Our models are trained with provided parameters.
+Change the relevant dataset path in `config.ini` or organize your data folder accordingly. Each dataset has its own section leading by `[dataset_name]`. Example commands and parameters for training model with each dataset are provided in `run.sh`.
 
 ## Train with your own dataset.
 
