@@ -158,9 +158,9 @@ class Visualizer():
     
     def draw(self, mode='data'):
         if mode == 'data':
-            self._show(self.data_grid)
+            self.__show(self.data_grid)
         else:
-            self._show(self.pred_grid)
+            self.__show(self.pred_grid)
 
     def save(self, path):
         if len(self.data_grid) > 0:
@@ -173,7 +173,7 @@ class Visualizer():
             result = Image.fromarray(result.astype(np.uint8))
             result.save(os.path.join(path, PRED_NAME))
 
-    def _show(self, imgs):
+    def __show(self, imgs):
         if not isinstance(imgs, list):
             imgs = [imgs]
         fig, axs = plt.subplots(ncols=len(imgs), squeeze=False)
