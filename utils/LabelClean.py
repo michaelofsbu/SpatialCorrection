@@ -10,7 +10,7 @@ from scipy.ndimage.morphology import distance_transform_edt as distrans
 JSRT_CLASS = ['lung', 'heart', 'clavicle']
 
 class Cleaner():
-    def __init__(self, model, trueloader,
+    def __init__(self, model, trueloader=None,
                 logger=logging.getLogger(__name__), **kwarg) -> None:
         self.model = model
         self.trueloader = trueloader
