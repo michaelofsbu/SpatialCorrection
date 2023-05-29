@@ -18,7 +18,7 @@ class Visualizer():
     def __init__(self, length, logger, indices=None, dataset='Jsrt') -> None:
         self.dataset = dataset
         self.num = 6
-        if not indices:
+        if (not indices) and length:
             np.random.seed(RANDOM_SEED)
             indices = np.random.randint(0, length, size=self.num)
         self.indices = indices

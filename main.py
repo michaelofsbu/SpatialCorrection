@@ -235,7 +235,10 @@ def main(args):
 
     logger.info('1. setup data')
     #if args.dataset == 'Jsrt':
-    train_loader, eval_loader, test_loader, true_loader = get_input(args)
+    if args.show_clean_performance == True:
+        train_loader, eval_loader, test_loader, true_loader = get_input(args)
+    else:
+        train_loader, eval_loader, test_loader = get_input(args)
     # elif args.dataset == 'Brats2020':
     #     train_loader, eval_loader, test_loader, true_loader = get_input(args)
     
@@ -261,11 +264,12 @@ def main(args):
     logger.info('4. start training')
     trainer = Trainer(model, optimizer, loss_f, scheduler, writer, device, logger, **vars(args))
     evaluator = Evaluator(model, writer, device=device, logger=logger, **vars(args))
-    cleaner = Cleaner(model, true_loader, logger=save_logger, device=device, **vars(args))
+    cleaner = Cleaner(model, true_loader if args.show_clean_performance == True else None, logger=save_logger, device=device, **vars(args))
     test = Evaluator(model, writer, device=device, logger=save_logger, save_file=True, **vars(args))
-    vis = Visualizer(len(true_loader), logger=save_logger, dataset=args.dataset)
+    vis = Visualizer(len(true_loader) if args.show_clean_performance == True else 0, logger=save_logger, dataset=args.dataset)
     vis.append_loader(train_loader)
-    vis.append_loader(true_loader)
+    if args.show_clean_performance == True:
+        vis.append_loader(true_loader)
     vis.append_prediction(None, eval_loader, device)
     dsc_list = []
     for i in range(args.model_num):
@@ -293,7 +297,10 @@ def main(args):
         torch.save(model.state_dict(), os.path.join(args.output, ('model{:d}.pth'.format(i+1))))
         model.apply(weight_init)
         #model.load_state_dict(torch.load(os.path.join('./checkpoints', args.dataset, 'init.pth'), map_location=device))
-        train_loader, eval_loader, test_loader, true_loader = get_input(args)
+        if args.show_clean_performance == True:
+            train_loader, eval_loader, test_loader, true_loader = get_input(args)
+        else:
+            train_loader, eval_loader, test_loader = get_input(args)
     logger.info('5. finish training')
 
     logger.info('6. Cross Evaluation')
